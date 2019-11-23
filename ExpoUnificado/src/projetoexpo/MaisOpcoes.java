@@ -1,32 +1,31 @@
 package projetoexpo;
 import java.awt.AWTEvent;
-import java.awt.BorderLayout;
 import java.awt.Component;
 import java.awt.EventQueue;
-
-import javax.swing.JFrame;
-import javax.swing.JPanel;
-import javax.swing.border.EmptyBorder;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.ImageIcon;
 import java.awt.Font;
 import java.awt.Toolkit;
 import java.awt.Window;
-import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
-import javax.swing.JTextField;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 public class MaisOpcoes extends TelaPrincipal {
 
 	private JPanel contentPane;
-	private JTextField txtScaneia;
 	private static Timer timer;
+	private String leitura = "";
 
 	/**
 	 * Launch the application.
@@ -133,33 +132,6 @@ public class MaisOpcoes extends TelaPrincipal {
 		btnAlterarPreco.setBounds(21, 262, 133, 56);
 		contentPane.add(btnAlterarPreco);
 		
-		txtScaneia = new JTextField();
-		txtScaneia.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				
-				if (txtScaneia.getText().equalsIgnoreCase("04")) {
-					btnCadastrar.doClick();
-				}
-				
-				else if (txtScaneia.getText().equalsIgnoreCase("05")) {
-					btnDesativar.doClick();
-				}
-				
-				else if (txtScaneia.getText().equalsIgnoreCase("06")) {
-					btnCancelarProduto.doClick();
-				}
-				
-				else if (txtScaneia.getText().equalsIgnoreCase("07")) {
-					btnAlterarPreco.doClick();
-				}
-				
-			}
-		});
-		txtScaneia.setBounds(331, 22, 14, 20);
-		contentPane.add(txtScaneia);
-		txtScaneia.setColumns(10);
-		txtScaneia.setVisible(true);
-		
 		JLabel lblCadastrar = new JLabel("Cadastrar");
 		lblCadastrar.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCadastrar.setBounds(185, 22, 133, 29);
@@ -180,11 +152,45 @@ public class MaisOpcoes extends TelaPrincipal {
 		lblAlterarPreco.setBounds(185, 262, 133, 29);
 		contentPane.add(lblAlterarPreco);
 		
-		addWindowListener( new WindowAdapter() {
+		JLabel lblCode = new JLabel("");
+		lblCode.setBounds(299, 22, 46, 14);
+		contentPane.add(lblCode);
+		
+		/*addWindowListener( new WindowAdapter() {
 			   public void windowOpened( WindowEvent e ){
 			        txtScaneia.requestFocus();
 			     }
-			   } );
+			   } );*/
+		
+		AWTEventListener listener = new AWTEventListener() {
+			  @Override
+			  public void eventDispatched(AWTEvent event) {
+			    try {
+			      KeyEvent evt = (KeyEvent)event;
+			      if(evt.getID() == KeyEvent.KEY_PRESSED) {
+				      //System.out.println("Código tecla: "+evt.getKeyChar());
+				      leitura += evt.getKeyChar();
+				      if(leitura.length()==2) {
+				    	  //lblDigitacao.setText(leitura);
+				    	  if(leitura.equals("01")) {
+				    		  System.out.println("Cancelar Item");
+				    	  }else if(leitura.equals("02")) {
+				    		  System.out.println("Cancelar Pedido");
+				    	  }else if(leitura.equals("03")) {
+				    		  System.out.println("Sair");
+				    	  }
+				    	  leitura = "";
+				      }
+			      }
+			     
+			    }
+			    catch(Exception e) {
+			      e.printStackTrace();
+			    }
+			  }
+			};
+
+			Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
 
 	}
 }
