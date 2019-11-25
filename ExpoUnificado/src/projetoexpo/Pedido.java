@@ -136,16 +136,12 @@ public class Pedido {
 	}
 
 	public void atualizar(Connection conn) {
-		String comando = "update pedido set totalItens=?, totalPedido=? where idPedido=?";
+		String comando = "UPDATE pedido SET totalItens = ?, totalPedido = ? WHERE idPedido = ?";
 		try (PreparedStatement pst = conn.prepareStatement(comando);) {
-			
-			int var0 = Integer.parseInt(JOptionPane.showInputDialog("Digite o id pedido"));
-			int var1 = Integer.parseInt(JOptionPane.showInputDialog("Digite o total Itens"));
-			Double var2 = Double.parseDouble(JOptionPane.showInputDialog("Digite o total Pedido"));
 
-			pst.setInt(1, var1);
-			pst.setDouble(2, var2);
-			pst.setDouble(3, var0);
+			pst.setInt(1, totalItens);
+			pst.setDouble(2, totalPedido);
+			pst.setDouble(3, id);
 
 			pst.execute();
 

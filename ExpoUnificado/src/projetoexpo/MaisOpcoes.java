@@ -74,7 +74,7 @@ public class MaisOpcoes extends TelaPrincipal {
 	                | AWTEvent.MOUSE_MOTION_EVENT_MASK
 	                | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 
-	        timer = new Timer(5000, new ActionListener() {
+	        timer = new Timer(10000, new ActionListener() {
 	          @Override
 	          public void actionPerformed(ActionEvent e) {
 	            dispose();
@@ -163,23 +163,29 @@ public class MaisOpcoes extends TelaPrincipal {
 			   } );*/
 		
 		AWTEventListener listener = new AWTEventListener() {
-			  @Override
 			  public void eventDispatched(AWTEvent event) {
 			    try {
 			      KeyEvent evt = (KeyEvent)event;
 			      if(evt.getID() == KeyEvent.KEY_PRESSED) {
-				      //System.out.println("CÃ³digo tecla: "+evt.getKeyChar());
+				      System.out.println("Tecla: "+evt.getKeyChar());
 				      leitura += evt.getKeyChar();
 				      if(leitura.length()==2) {
-				    	  //lblDigitacao.setText(leitura);
-				    	  if(leitura.equals("01")) {
-				    		  System.out.println("Cancelar Item");
-				    	  }else if(leitura.equals("02")) {
-				    		  System.out.println("Cancelar Pedido");
-				    	  }else if(leitura.equals("03")) {
-				    		  System.out.println("Sair");
+				    	  lblCode.setText(leitura);
+				    	  if(leitura.equals("04")) {
+				    		  System.out.println("Cadastra");
+				    		  btnCadastrar.doClick();
+				    	  }else if(leitura.equals("05")) {
+				    		  System.out.println("Desativa");
+				    		  btnDesativar.doClick();
+				    	  }else if(leitura.equals("06")) {
+				    		  System.out.println("Cancela produto");
+				    		  btnCancelarProduto.doClick();
+				    	  }else if(leitura.equals("07")) {
+				    		  System.out.println("Altera preço");
+				    		  btnAlterarPreco.doClick();
 				    	  }
 				    	  leitura = "";
+				    	  
 				      }
 			      }
 			     
@@ -191,6 +197,7 @@ public class MaisOpcoes extends TelaPrincipal {
 			};
 
 			Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
+			
 
 	}
 }

@@ -10,6 +10,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -58,7 +59,7 @@ public class TelaPrincipal extends JFrame {
 	private Venda venda;
 	private static Timer timer;
 	private boolean finalizado = false;
-
+	private int unidades = 0;
 	Double total;
 	Double soma = 0.0;
 	private JScrollPane scrollPane;
@@ -85,7 +86,7 @@ public class TelaPrincipal extends JFrame {
 	 */
 
 	public TelaPrincipal() {
-		
+
 		Connection conn = Conexao.getConnection();
 
 		// Timer
@@ -216,7 +217,7 @@ public class TelaPrincipal extends JFrame {
 		btnFinalizar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				txtCodigoDeBarra.setText("");
-				
+
 				if (!txtTotal.getText().equalsIgnoreCase("")) {
 
 					if (!finalizado) {
@@ -296,8 +297,6 @@ public class TelaPrincipal extends JFrame {
 		txtCodigoDeBarra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-
-
 				if (txtCodigoDeBarra.getText().equalsIgnoreCase("01")) {
 					btnFinalizar.doClick();
 				}
@@ -330,39 +329,40 @@ public class TelaPrincipal extends JFrame {
 								txtDescricao.setText(mercadoria.getDescricao());
 								txtValorUnitario.setText(mercadoria.getPreco() + "");
 								conteudo += mercadoria.getDescricao() + " - R$ " + mercadoria.getPreco() + "\n";
+								unidades++;
 								textArea.setText(conteudo);
 								total = soma += Double.parseDouble(txtValorUnitario.getText());
 								txtTotal.setText("R$ " + total.toString().format("%.2f", total));
 								txtCodigoDeBarra.setText("");
-								
+
 								if (pedido == null) {
-									pedido = new Pedido(Util.getSqlDate(), 0 , 0.0, false);
+									pedido = new Pedido(Util.getSqlDate(), unidades, total, false);
 									pedido.inserir(conn);
-									
+
+								} else {
+									pedido.setTotalItens(unidades);
+									pedido.setTotalPedido(total);
+									pedido.atualizar(conn);
 									
 								}
 								
 								venda = new Venda(mercadoria, pedido, 1, mercadoria.getPreco());
 								venda.inserir(conn);
+								conn.commit();
+
+							}
+
+							else {
+								// Não esta ativo
+								JOptionPane.showMessageDialog(null, "Produto não esta ativo");
 								
 							}
-							
-							else {	
-								//Não esta ativo
-								JOptionPane.showMessageDialog(null, "Nao esta ativo");
-								}
 						} else if (mercadoria.getId() == -1) {
 							String codigo = txtCodigoDeBarra.getText();
 							JFrame jj = new Cadastro(codigo, true);
 							jj.setVisible(true);
 							txtCodigoDeBarra.setText("");
 						}
-						
-						
-
-						
-						
-						
 
 					}
 
@@ -376,12 +376,11 @@ public class TelaPrincipal extends JFrame {
 		txtCodigoDeBarra.setBounds(39, 75, 146, 41);
 		contentPane.add(txtCodigoDeBarra);
 		txtCodigoDeBarra.setColumns(10);
-		
 
 	}
-	
+
 	private void zeraPedido() {
-		
+
 		txtCodigoDeBarra.requestFocus();
 		txtCodigoDeBarra.setText("");
 		txtDescricao.setText("");
@@ -394,6 +393,7 @@ public class TelaPrincipal extends JFrame {
 		conteudo = "";
 		textArea.setText("");
 		finalizado = !finalizado;
+		unidades = 0;
 		pedido = null;
 	}
 }

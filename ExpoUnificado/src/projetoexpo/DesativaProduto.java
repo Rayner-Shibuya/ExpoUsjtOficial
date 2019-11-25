@@ -80,7 +80,7 @@ public class DesativaProduto extends JFrame {
 	                | AWTEvent.MOUSE_MOTION_EVENT_MASK
 	                | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 
-	        timer = new Timer(5000, new ActionListener() {
+	        timer = new Timer(10000, new ActionListener() {
 	          @Override
 	          public void actionPerformed(ActionEvent e) {
 	            dispose();
@@ -137,7 +137,6 @@ public class DesativaProduto extends JFrame {
 					
 					mercadoria.setCodigo(txtCodigo.getText());
 					mercadoria.carregar(conn);
-					conn.commit();
 
 					if (mercadoria.getId() != -1) {
 						
@@ -207,7 +206,6 @@ public class DesativaProduto extends JFrame {
 					
 					mercadoria.setCodigo(txtCodigo.getText());
 					mercadoria.carregar(conn);
-					conn.commit();
 
 					if (mercadoria.getId() != -1) {
 

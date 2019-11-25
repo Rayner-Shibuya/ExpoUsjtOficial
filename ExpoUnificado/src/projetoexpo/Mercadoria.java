@@ -116,14 +116,14 @@ public class Mercadoria {
 		String comando = "insert into mercadoria (codigo, descricao, unidade, preco, dataAtualizacao, ativo) values(?,?,?,?,?,?)";
 		try (PreparedStatement ps = conn.prepareStatement(comando, Statement.RETURN_GENERATED_KEYS)) {
 
-
+			System.out.println(codigo);
 	         ps.setString(1, codigo);
 	         ps.setString(2, descricao);
 	         ps.setString(3, unidade);
 	         ps.setDouble(4, preco);
 	         ps.setDate(5, dataAtualizacao);
 	         ps.setBoolean(6, ativo);
-	         ps.executeUpdate();
+	         ps.execute();
 	         
 			
 	         ResultSet rs = ps.getGeneratedKeys();
@@ -159,7 +159,7 @@ public class Mercadoria {
 					pst.execute();
 				} else {
 					id = -1;
-					codigo = null;
+//					codigo = null;
 				}
 			} catch (SQLException e) {
 				e.printStackTrace();

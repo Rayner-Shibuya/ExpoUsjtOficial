@@ -84,6 +84,7 @@ public class AlteraPreco extends JFrame {
 	          }
 	        });
 	        timer.start();
+	        
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
@@ -124,7 +125,7 @@ public class AlteraPreco extends JFrame {
 		txtCodigo = new JTextField();
 		txtCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = Conexao.getConnection();	
+				Connection conn = Conexao.getConnection();
 				
 				try {
 					
@@ -133,14 +134,14 @@ public class AlteraPreco extends JFrame {
 					
 					mercadoria.setCodigo(txtCodigo.getText());
 					
-					Statement myStmt = conn.createStatement();
+					mercadoria.carregar(conn);
+//					conn.commit();
 					
-					ResultSet checar = myStmt.executeQuery ("SELECT * FROM mercadoria WHERE codigo = '" + txtCodigo.getText() + "'");
-					if (checar.next()) {
+					if (mercadoria.getId() != -1) {
 						
-						conn.commit();
-						lblNome.setText(checar.getString("descricao"));
-						lblPrecoVelho.setText("R$ " + checar.toString().format("%.2f", checar.getDouble("preco")));
+						
+						lblNome.setText(mercadoria.getDescricao());
+						lblPrecoVelho.setText("R$ " + mercadoria.getPreco().toString().format("%.2f", mercadoria.getPreco()));
 						txtPrecoNovo.requestFocus();
 						
 					}
@@ -183,7 +184,7 @@ public class AlteraPreco extends JFrame {
 		JButton btnConfirma = new JButton("Confirma");
 		btnConfirma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = Conexao.getConnection();	
+				Connection conn = Conexao.getConnection();
 				
 				try {
 					
@@ -192,10 +193,9 @@ public class AlteraPreco extends JFrame {
 					
 					mercadoria.setCodigo(txtCodigo.getText());
 					
-					Statement myStmt = conn.createStatement();
+					mercadoria.carregar(conn);
 					
-					ResultSet checar = myStmt.executeQuery ("SELECT * FROM mercadoria WHERE codigo = '" + txtCodigo.getText() + "'");
-					if (checar.next()) {
+					if (mercadoria.getId() != -1) {
 						
 						int confirma = JOptionPane.showConfirmDialog(null, "O novo preço esta correto?\n\nDescrição: " + lblNome.getText()
 						+ "\nPreço anterior: R$ " + lblPrecoVelho.getText()
@@ -207,10 +207,10 @@ public class AlteraPreco extends JFrame {
 						mercadoria.atualizar(conn);
 						conn.commit();
 						JOptionPane.showMessageDialog(null, "Preco atualizado");
-						txtCodigo.setText("");
-						txtPrecoNovo.setText("");
-						lblNome.setText("");
-						lblPrecoVelho.setText("");
+//						txtCodigo.setText("");
+//						txtPrecoNovo.setText("");
+//						lblNome.setText("");
+//						lblPrecoVelho.setText("");
 						dispose();
 						
 						}

@@ -78,15 +78,14 @@ public class Venda {
 
 	public void inserir(Connection conn) {
 
-		String comando = "insert into venda (quantidade, preco, mercadoria_idMercadoria, pedido_idpedido) values(?,?,?,?)";
+		String comando = "INSERT INTO venda (quantidade, preco, mercadoria_idMercadoria, pedido_idpedido) VALUES (?,?,?,?)";
 		try (PreparedStatement ps = conn.prepareStatement(comando, Statement.RETURN_GENERATED_KEYS)) {
-			System.out.println(getQuantidade() + "  " + getPreco() + "  " + getMercadoria().getId() + "   " + getPedido().getId());
 			ps.setInt(1, getQuantidade());
 			ps.setDouble(2, getPreco());
 			ps.setInt(3, getMercadoria().getId());
 			ps.setInt(4, getPedido().getId());
 			
-			ps.execute();
+			ps.executeUpdate();
 
 		} catch (SQLException e) {
 			e.printStackTrace();
