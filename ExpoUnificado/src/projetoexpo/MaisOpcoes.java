@@ -26,6 +26,7 @@ public class MaisOpcoes extends TelaPrincipal {
 	private JPanel contentPane;
 	private static Timer timer;
 	private String leitura = "";
+	private AWTEventListener listener;
 
 	/**
 	 * Launch the application.
@@ -95,6 +96,7 @@ public class MaisOpcoes extends TelaPrincipal {
 				String codigo = "";
 				JFrame cadastro = new Cadastro(codigo,false);
 				cadastro.setVisible(true);
+				Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
 				dispose();
 				
 			}
@@ -108,6 +110,7 @@ public class MaisOpcoes extends TelaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				JFrame desativa = new DesativaProduto();
 				desativa.setVisible(true);
+				Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
 				dispose();
 			}
 		});
@@ -125,6 +128,7 @@ public class MaisOpcoes extends TelaPrincipal {
 			public void actionPerformed(ActionEvent e) {
 				JFrame alterar = new AlteraPreco();
 				alterar.setVisible(true);
+				Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
 				dispose();
 			}
 		});
@@ -156,48 +160,41 @@ public class MaisOpcoes extends TelaPrincipal {
 		lblCode.setBounds(299, 22, 46, 14);
 		contentPane.add(lblCode);
 		
-		/*addWindowListener( new WindowAdapter() {
-			   public void windowOpened( WindowEvent e ){
-			        txtScaneia.requestFocus();
-			     }
-			   } );*/
-		
-		AWTEventListener listener = new AWTEventListener() {
-			  public void eventDispatched(AWTEvent event) {
-			    try {
-			      KeyEvent evt = (KeyEvent)event;
-			      if(evt.getID() == KeyEvent.KEY_PRESSED) {
-				      System.out.println("Tecla: "+evt.getKeyChar());
-				      leitura += evt.getKeyChar();
-				      if(leitura.length()==2) {
-				    	  lblCode.setText(leitura);
-				    	  if(leitura.equals("04")) {
-				    		  System.out.println("Cadastra");
-				    		  btnCadastrar.doClick();
-				    	  }else if(leitura.equals("05")) {
-				    		  System.out.println("Desativa");
-				    		  btnDesativar.doClick();
-				    	  }else if(leitura.equals("06")) {
-				    		  System.out.println("Cancela produto");
-				    		  btnCancelarProduto.doClick();
-				    	  }else if(leitura.equals("07")) {
-				    		  System.out.println("Altera preço");
-				    		  btnAlterarPreco.doClick();
-				    	  }
-				    	  leitura = "";
-				    	  
+		listener = new AWTEventListener() {
+				  public void eventDispatched(AWTEvent event) {
+				    try {
+				      KeyEvent evt = (KeyEvent)event;
+				      if(evt.getID() == KeyEvent.KEY_PRESSED) {
+					      System.out.println("Tecla: "+evt.getKeyChar());
+					      leitura += evt.getKeyChar();
+					      if(leitura.length()==2) {
+//					    	  lblCode.setText(leitura);
+					    	  if(leitura.equals("04")) {
+					    		  System.out.println("Cadastra");
+					    		  btnCadastrar.doClick();
+					    	  }else if(leitura.equals("05")) {
+					    		  System.out.println("Desativa");
+					    		  btnDesativar.doClick();
+					    	  }else if(leitura.equals("06")) {
+					    		  System.out.println("Cancela produto");
+					    		  btnCancelarProduto.doClick();
+					    	  }else if(leitura.equals("07")) {
+					    		  System.out.println("Altera preço");
+					    		  btnAlterarPreco.doClick();
+					    	  }
+					    	  leitura = "";
+					      }
+					      
 				      }
-			      }
-			     
-			    }
-			    catch(Exception e) {
-			      e.printStackTrace();
-			    }
-			  }
-			};
-
-			Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
-			
+				     
+				    }
+				    catch(Exception e) {
+				      e.printStackTrace();
+				    }
+				  }
+				};
+				
+				Toolkit.getDefaultToolkit().addAWTEventListener(listener, AWTEvent.KEY_EVENT_MASK);
 
 	}
 }
