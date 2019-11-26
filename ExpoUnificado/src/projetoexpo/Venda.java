@@ -99,6 +99,7 @@ public class Venda {
 		try (PreparedStatement pst = conn.prepareStatement(comando);) {
 			pst.setInt(1, idPedido);
 			pst.setString(2, codigoMercadoria);
+			pst.execute();
 			try (ResultSet rs = pst.executeQuery();) {
 				while (rs.next()) {
 					deletaveis.add(rs.getInt(1));
@@ -114,7 +115,7 @@ public class Venda {
 	}
 
 	public void delete(Connection conn, int id) {
-		String comando = "delete from venda where idvenda = ?";
+		String comando = "DELETE FROM venda WHERE idvenda = ?";
 		try (PreparedStatement ps = conn.prepareStatement(comando, Statement.RETURN_GENERATED_KEYS)) {
 
 			ps.setInt(1, id);
@@ -124,4 +125,46 @@ public class Venda {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	public void deletarTodasVenda(Connection conn, int idPedido) {
+		String comando = "DELETE FROM venda WHERE pedido_idpedido = ?";
+		try (PreparedStatement pst = conn.prepareStatement(comando)) {
+			pst.setInt(1, idPedido);
+			pst.execute();
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
+	}
+	
+	public void trazQuantidade(Connection conn, int idPedido) {
+		String comando = "SELECT COUNT(pedido_idpedido) AS quantidade FROM venda WHERE pedido_idpedido = ?";
+		try (PreparedStatement pst = conn.prepareStatement(comando)){
+			
+			pst.setInt(1, idPedido);
+
+			try (ResultSet rs = pst.executeQuery();) {
+				if (rs.next()) {
+					quantidade = rs.getInt("quantidade");
+
+				} else {
+					id = -1;
+					//codigo = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
+	
 }

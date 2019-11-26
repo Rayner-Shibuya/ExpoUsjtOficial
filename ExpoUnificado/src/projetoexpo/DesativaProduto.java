@@ -56,37 +56,38 @@ public class DesativaProduto extends JFrame {
 	public DesativaProduto() {
 		
 		setTitle("Desativar Produto");
+		Connection conn = Conexao.getConnection();
 		
-	    Toolkit.getDefaultToolkit().addAWTEventListener(
-	            new AWTEventListener() {
-	              @Override
-	              public void eventDispatched(AWTEvent event) {
-	                Object source = event.getSource();
-	                if (source instanceof Component) {
-	                  Component comp = (Component) source;
-	                  Window win = null;
-	                  if (comp instanceof Window) {
-	                    win = (Window) comp;
-	                  } else {
-	                    win = SwingUtilities.windowForComponent(comp);
-	                  }
-	                  if (win == win) {
-	                    timer.restart();
-	                    }
-	                }
-	              }
-	            },
-	            AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK
-	                | AWTEvent.MOUSE_MOTION_EVENT_MASK
-	                | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
-
-	        timer = new Timer(10000, new ActionListener() {
-	          @Override
-	          public void actionPerformed(ActionEvent e) {
-	            dispose();
-	          }
-	        });
-	        timer.start();
+//	    Toolkit.getDefaultToolkit().addAWTEventListener(
+//	            new AWTEventListener() {
+//	              @Override
+//	              public void eventDispatched(AWTEvent event) {
+//	                Object source = event.getSource();
+//	                if (source instanceof Component) {
+//	                  Component comp = (Component) source;
+//	                  Window win = null;
+//	                  if (comp instanceof Window) {
+//	                    win = (Window) comp;
+//	                  } else {
+//	                    win = SwingUtilities.windowForComponent(comp);
+//	                  }
+//	                  if (win == win) {
+//	                    timer.restart();
+//	                    }
+//	                }
+//	              }
+//	            },
+//	            AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK
+//	                | AWTEvent.MOUSE_MOTION_EVENT_MASK
+//	                | AWTEvent.MOUSE_WHEEL_EVENT_MASK);
+//
+//	        timer = new Timer(10000, new ActionListener() {
+//	          @Override
+//	          public void actionPerformed(ActionEvent e) {
+//	            dispose();
+//	          }
+//	        });
+//	        timer.start();
 
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 448, 276);
@@ -127,8 +128,7 @@ public class DesativaProduto extends JFrame {
 		JButton btnConfirma = new JButton("Confirma");
 		btnConfirma.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = Conexao.getConnection();	
-				
+
 				try {
 					
 					conn.setAutoCommit(false);
@@ -197,7 +197,6 @@ public class DesativaProduto extends JFrame {
 		txtCodigo = new JTextField();
 		txtCodigo.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				Connection conn = Conexao.getConnection();	
 				
 				try {
 					
@@ -236,16 +235,16 @@ public class DesativaProduto extends JFrame {
 			            }
 			         }
 			      } 
-			      finally{
-			         if(conn != null){
-			            try{
-			               conn.close();
-			            } 
-			            catch(SQLException e1){
-			            	JOptionPane.showMessageDialog(null, e1 + "erro3");
-			            }
-			         }      
-			      }
+//			      finally{
+//			         if(conn != null){
+//			            try{
+//			               conn.close();
+//			            } 
+//			            catch(SQLException e1){
+//			            	JOptionPane.showMessageDialog(null, e1 + "erro3");
+//			            }
+//			         }      
+//			      }
 				
 			}
 		});

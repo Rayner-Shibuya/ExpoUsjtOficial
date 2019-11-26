@@ -99,8 +99,7 @@ public class Pedido {
 		String comando = "select data, totalItens, totalPedido, cancelado from pedido where idPedido=?";
 		try (PreparedStatement pst = conn.prepareStatement(comando);) {
 
-			int var = Integer.parseInt(JOptionPane.showInputDialog("Digite o id"));
-			pst.setInt(1, var);
+			pst.setInt(1, getId());
 
 			try (ResultSet rs = pst.executeQuery();) {
 				if (rs.next()) {
@@ -121,13 +120,12 @@ public class Pedido {
 		}
 	}
 
-	public void exclusaoLogica(Connection conn) {
+	public void exclusaoLogica(Connection conn, int idPedido) {
 		String comando = "update pedido set cancelado = ? where idPedido=?";
 		try (PreparedStatement pst = conn.prepareStatement(comando);) {
 
-			pst.setBoolean(1, false);
-			int var = Integer.parseInt(JOptionPane.showInputDialog("Digite o id pedido"));
-			pst.setInt(2, var);
+			pst.setBoolean(1, true);
+			pst.setInt(2, idPedido);
 			pst.execute();
 
 		} catch (SQLException e) {
@@ -148,6 +146,19 @@ public class Pedido {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public void deletarPedido(Connection conn, int idPedido) {
+		String comando = "DELETE FROM pedido WHERE idpedido = ?";
+		try (PreparedStatement pst = conn.prepareStatement(comando);) {
+			pst.setInt(1, idPedido);
+			pst.execute();
+			}
+		
+		catch (SQLException e) {
+			e.printStackTrace();
+		}
+
 	}
 
 }

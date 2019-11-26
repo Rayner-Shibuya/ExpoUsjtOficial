@@ -63,6 +63,7 @@ public class TelaPrincipal extends JFrame {
 	Double total;
 	Double soma = 0.0;
 	private JScrollPane scrollPane;
+	private int idPedido;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -111,21 +112,10 @@ public class TelaPrincipal extends JFrame {
 //		}, AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK
 //				| AWTEvent.MOUSE_WHEEL_EVENT_MASK);
 //
-//		timer = new Timer(10000, new ActionListener() {
+//		timer = new Timer(500000, new ActionListener() {
 //			@Override
 //			public void actionPerformed(ActionEvent e) {
-//				txtCodigoDeBarra.requestFocus();
-//				txtCodigoDeBarra.setText("");
-//				txtDescricao.setText("");
-//				txtTotal.setText("");
-//				txtTroco.setText("");
-//				txtValorRecebido.setText("");
-//				txtValorUnitario.setText("");
-//				total = 0.0;
-//				soma = 0.0;
-//				conteudo = "";
-//				textArea.setText("");
-//				finalizado = !finalizado;
+//				zeraPedido();
 //			}
 //		});
 //		timer.start();
@@ -268,6 +258,18 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(btnFinalizar);
 
 		JButton btnCancelar = new JButton("");
+		btnCancelar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if (pedido == null) {
+					JOptionPane.showMessageDialog(null, "Não há pedidos em aberto");
+				} else {
+					JFrame cancelar = new CancelaVenda(pedido.getId());
+					cancelar.setVisible(true);
+					txtCodigoDeBarra.setText("");
+					
+				}
+			}
+		});
 		btnCancelar.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/cancelar.gif")));
 		btnCancelar.setBounds(245, 424, 116, 56);
 		contentPane.add(btnCancelar);
@@ -275,7 +277,15 @@ public class TelaPrincipal extends JFrame {
 		JButton btnMaisOpcoes = new JButton("");
 		btnMaisOpcoes.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				JFrame opcoes = new MaisOpcoes();
+				if (pedido == null) {
+					idPedido = 0;
+				}
+				
+				else {
+					idPedido = pedido.getId();
+				}
+				
+				JFrame opcoes = new MaisOpcoes(idPedido);
 				opcoes.setVisible(true);
 				txtCodigoDeBarra.setText("");
 			}
@@ -339,15 +349,15 @@ public class TelaPrincipal extends JFrame {
 									pedido = new Pedido(Util.getSqlDate(), unidades, total, false);
 									pedido.inserir(conn);
 
-								} else {
-									pedido.setTotalItens(unidades);
-									pedido.setTotalPedido(total);
-									pedido.atualizar(conn);
-									
 								}
 								
 								venda = new Venda(mercadoria, pedido, 1, mercadoria.getPreco());
 								venda.inserir(conn);
+								venda.trazQuantidade(conn, pedido.getId());
+								
+								pedido.setTotalPedido(total);
+								pedido.setTotalItens(venda.getQuantidade());
+								pedido.atualizar(conn);
 								conn.commit();
 
 							}
@@ -379,7 +389,7 @@ public class TelaPrincipal extends JFrame {
 
 	}
 
-	private void zeraPedido() {
+	public void zeraPedido() {
 
 		txtCodigoDeBarra.requestFocus();
 		txtCodigoDeBarra.setText("");

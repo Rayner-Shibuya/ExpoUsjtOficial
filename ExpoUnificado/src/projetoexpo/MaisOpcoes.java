@@ -27,6 +27,7 @@ public class MaisOpcoes extends TelaPrincipal {
 	private static Timer timer;
 	private String leitura = "";
 	private AWTEventListener listener;
+	private int IdPedido;
 
 	/**
 	 * Launch the application.
@@ -35,7 +36,7 @@ public class MaisOpcoes extends TelaPrincipal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MaisOpcoes frame = new MaisOpcoes();
+					MaisOpcoes frame = new MaisOpcoes(0);
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -48,7 +49,9 @@ public class MaisOpcoes extends TelaPrincipal {
 	 * Create the frame.
 	 */
 	
-	public MaisOpcoes() {
+	public MaisOpcoes(int idPedido) {
+		
+		this.IdPedido = idPedido;
 		
 		setTitle("Mais Opções");
 		
@@ -118,10 +121,18 @@ public class MaisOpcoes extends TelaPrincipal {
 		btnDesativar.setBounds(21, 103, 133, 56);
 		contentPane.add(btnDesativar);
 		
-		JButton btnCancelarProduto = new JButton("");
-		btnCancelarProduto.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/CancelarProduto.jpg")));
-		btnCancelarProduto.setBounds(21, 183, 133, 56);
-		contentPane.add(btnCancelarProduto);
+		JButton btnCancelarPedido = new JButton("");
+		btnCancelarPedido.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				JFrame cancelapedido = new CancelaPedido(idPedido);
+				cancelapedido.setVisible(true);
+				Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
+				dispose();
+			}
+		});
+		btnCancelarPedido.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/CancelarProduto.jpg")));
+		btnCancelarPedido.setBounds(21, 183, 133, 56);
+		contentPane.add(btnCancelarPedido);
 		
 		JButton btnAlterarPreco = new JButton("");
 		btnAlterarPreco.addActionListener(new ActionListener() {
@@ -146,10 +157,10 @@ public class MaisOpcoes extends TelaPrincipal {
 		lblDesativar.setBounds(185, 103, 133, 29);
 		contentPane.add(lblDesativar);
 		
-		JLabel lblCancelarProduto = new JLabel("Cancelar Produto");
-		lblCancelarProduto.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCancelarProduto.setBounds(185, 183, 133, 29);
-		contentPane.add(lblCancelarProduto);
+		JLabel lblCancelarPedido = new JLabel("Cancelar Produto");
+		lblCancelarPedido.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblCancelarPedido.setBounds(185, 183, 133, 29);
+		contentPane.add(lblCancelarPedido);
 		
 		JLabel lblAlterarPreco = new JLabel("Alterar Pre\u00E7o");
 		lblAlterarPreco.setFont(new Font("Arial", Font.PLAIN, 12));
@@ -177,7 +188,7 @@ public class MaisOpcoes extends TelaPrincipal {
 					    		  btnDesativar.doClick();
 					    	  }else if(leitura.equals("06")) {
 					    		  System.out.println("Cancela produto");
-					    		  btnCancelarProduto.doClick();
+					    		  btnCancelarPedido.doClick();
 					    	  }else if(leitura.equals("07")) {
 					    		  System.out.println("Altera preço");
 					    		  btnAlterarPreco.doClick();
