@@ -119,6 +119,7 @@ public class CancelaVenda extends JFrame {
 						lblProduto.setText(mercadoria.getDescricao());
 						lblPreco.setText(mercadoria.getPreco() + "");
 						textField.setEditable(false);
+						lblSim.requestFocus();
 					}
 					
 				} catch (SQLException erro){
