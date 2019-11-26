@@ -118,6 +118,7 @@ public class CancelaVenda extends JFrame {
 					if (mercadoria.getId() != -1) {
 						lblProduto.setText(mercadoria.getDescricao());
 						lblPreco.setText(mercadoria.getPreco() + "");
+						textField.setEditable(false);
 					}
 					
 				} catch (SQLException erro){
@@ -161,11 +162,20 @@ public class CancelaVenda extends JFrame {
 					if (mercadoria.getId() != -1) {
 						System.out.println("pedido   " + idPed);
 						System.out.println(mercadoria.getCodigo());
-						
 						venda.deleteVenda(conn, idPed, mercadoria.getCodigo());
 						
 						
+						venda.trazTotal(conn, idPed);
+						venda.trazQuantidade(conn, idPed);
+						System.out.println("as  " + venda.getQuantidade());
+						
+						pedido.setTotalItens(venda.getQuantidade());
+						pedido.setTotalPedido(venda.getPreco());
+						pedido.atualizar(conn, idPed);
+						
 						conn.commit();
+						
+						JOptionPane.showMessageDialog(null, "Produto removido do carrinho");
 					} else {
 						JOptionPane.showMessageDialog(null, "Não existe esse produto");
 					}

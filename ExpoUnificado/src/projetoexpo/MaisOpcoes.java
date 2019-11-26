@@ -157,7 +157,7 @@ public class MaisOpcoes extends TelaPrincipal {
 		lblDesativar.setBounds(185, 103, 133, 29);
 		contentPane.add(lblDesativar);
 		
-		JLabel lblCancelarPedido = new JLabel("Cancelar Produto");
+		JLabel lblCancelarPedido = new JLabel("Cancelar Compra");
 		lblCancelarPedido.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblCancelarPedido.setBounds(185, 183, 133, 29);
 		contentPane.add(lblCancelarPedido);

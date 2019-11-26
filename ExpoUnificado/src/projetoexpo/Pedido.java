@@ -133,13 +133,13 @@ public class Pedido {
 		}
 	}
 
-	public void atualizar(Connection conn) {
+	public void atualizar(Connection conn, int idPedido) {
 		String comando = "UPDATE pedido SET totalItens = ?, totalPedido = ? WHERE idPedido = ?";
 		try (PreparedStatement pst = conn.prepareStatement(comando);) {
 
 			pst.setInt(1, totalItens);
 			pst.setDouble(2, totalPedido);
-			pst.setDouble(3, id);
+			pst.setDouble(3, idPedido);
 
 			pst.execute();
 

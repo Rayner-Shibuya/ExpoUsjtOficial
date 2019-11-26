@@ -163,6 +163,29 @@ public class Venda {
 		}
 	}
 	
+	public void trazTotal(Connection conn, int idPedido) {
+		String comando = "SELECT SUM(preco) AS soma FROM venda WHERE pedido_idpedido = ?";
+		try (PreparedStatement pst = conn.prepareStatement(comando)){
+			
+			pst.setInt(1, idPedido);
+
+			try (ResultSet rs = pst.executeQuery();) {
+				if (rs.next()) {
+					preco = rs.getDouble("soma");
+
+				} else {
+					id = -1;
+					//codigo = null;
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	
 	
 	

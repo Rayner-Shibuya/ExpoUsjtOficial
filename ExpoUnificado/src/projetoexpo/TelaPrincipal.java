@@ -342,7 +342,7 @@ public class TelaPrincipal extends JFrame {
 								unidades++;
 								textArea.setText(conteudo);
 								total = soma += Double.parseDouble(txtValorUnitario.getText());
-								txtTotal.setText("R$ " + total.toString().format("%.2f", total));
+//								txtTotal.setText("R$ " + total.toString().format("%.2f", total));
 								txtCodigoDeBarra.setText("");
 
 								if (pedido == null) {
@@ -354,10 +354,14 @@ public class TelaPrincipal extends JFrame {
 								venda = new Venda(mercadoria, pedido, 1, mercadoria.getPreco());
 								venda.inserir(conn);
 								venda.trazQuantidade(conn, pedido.getId());
+								venda.trazTotal(conn, pedido.getId());
+								total = venda.getPreco();
+								txtTotal.setText("R$ " + total.toString().format("%.2f", total));
 								
 								pedido.setTotalPedido(total);
 								pedido.setTotalItens(venda.getQuantidade());
-								pedido.atualizar(conn);
+								pedido.atualizar(conn, pedido.getId());
+								
 								conn.commit();
 
 							}
