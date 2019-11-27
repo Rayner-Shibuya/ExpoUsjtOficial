@@ -87,13 +87,13 @@ public class MaisOpcoes extends TelaPrincipal {
 	        timer.start();
 		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 371, 384);
+		setBounds(100, 100, 364, 507);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
-		contentPane.setLayout(null);
 		
 		JButton btnCadastrar = new JButton("");
+		btnCadastrar.setBounds(21, 11, 133, 70);
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String codigo = "";
@@ -104,11 +104,12 @@ public class MaisOpcoes extends TelaPrincipal {
 				
 			}
 		});
-		btnCadastrar.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/Cadastrar.jpg")));
-		btnCadastrar.setBounds(21, 22, 133, 56);
+		contentPane.setLayout(null);
+		btnCadastrar.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/CD.gif")));
 		contentPane.add(btnCadastrar);
 		
 		JButton btnDesativar = new JButton("");
+		btnDesativar.setBounds(21, 103, 133, 70);
 		btnDesativar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame desativa = new DesativaProduto();
@@ -117,11 +118,11 @@ public class MaisOpcoes extends TelaPrincipal {
 				dispose();
 			}
 		});
-		btnDesativar.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/Desativar.jpg")));
-		btnDesativar.setBounds(21, 103, 133, 56);
+		btnDesativar.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/DP.gif")));
 		contentPane.add(btnDesativar);
 		
 		JButton btnCancelarPedido = new JButton("");
+		btnCancelarPedido.setBounds(21, 197, 133, 70);
 		btnCancelarPedido.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame cancelapedido = new CancelaPedido(idPedido);
@@ -130,11 +131,11 @@ public class MaisOpcoes extends TelaPrincipal {
 				dispose();
 			}
 		});
-		btnCancelarPedido.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/CancelarProduto.jpg")));
-		btnCancelarPedido.setBounds(21, 183, 133, 56);
+		btnCancelarPedido.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/CP.gif")));
 		contentPane.add(btnCancelarPedido);
 		
 		JButton btnAlterarPreco = new JButton("");
+		btnAlterarPreco.setBounds(21, 294, 133, 70);
 		btnAlterarPreco.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				JFrame alterar = new AlteraPreco();
@@ -143,33 +144,41 @@ public class MaisOpcoes extends TelaPrincipal {
 				dispose();
 			}
 		});
-		btnAlterarPreco.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/AlterarPreco.jpg")));
-		btnAlterarPreco.setBounds(21, 262, 133, 56);
+		btnAlterarPreco.setIcon(new ImageIcon(MaisOpcoes.class.getResource("/ImageLib/AP.jpg")));
 		contentPane.add(btnAlterarPreco);
 		
 		JLabel lblCadastrar = new JLabel("Cadastrar");
+		lblCadastrar.setBounds(185, 11, 133, 29);
 		lblCadastrar.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCadastrar.setBounds(185, 22, 133, 29);
 		contentPane.add(lblCadastrar);
 		
 		JLabel lblDesativar = new JLabel("Desativar");
-		lblDesativar.setFont(new Font("Arial", Font.PLAIN, 12));
 		lblDesativar.setBounds(185, 103, 133, 29);
+		lblDesativar.setFont(new Font("Arial", Font.PLAIN, 12));
 		contentPane.add(lblDesativar);
 		
 		JLabel lblCancelarPedido = new JLabel("Cancelar Compra");
+		lblCancelarPedido.setBounds(185, 195, 133, 29);
 		lblCancelarPedido.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblCancelarPedido.setBounds(185, 183, 133, 29);
 		contentPane.add(lblCancelarPedido);
 		
 		JLabel lblAlterarPreco = new JLabel("Alterar Pre\u00E7o");
+		lblAlterarPreco.setBounds(185, 288, 133, 29);
 		lblAlterarPreco.setFont(new Font("Arial", Font.PLAIN, 12));
-		lblAlterarPreco.setBounds(185, 262, 133, 29);
 		contentPane.add(lblAlterarPreco);
 		
 		JLabel lblCode = new JLabel("");
 		lblCode.setBounds(299, 22, 46, 14);
 		contentPane.add(lblCode);
+		
+		JButton btnExel = new JButton("");
+		btnExel.setBounds(21, 387, 133, 70);
+		contentPane.add(btnExel);
+		
+		JLabel lblImportarBancoPro = new JLabel("Importar banco pro Exel");
+		lblImportarBancoPro.setFont(new Font("Arial", Font.PLAIN, 12));
+		lblImportarBancoPro.setBounds(185, 387, 153, 21);
+		contentPane.add(lblImportarBancoPro);
 		
 		listener = new AWTEventListener() {
 				  public void eventDispatched(AWTEvent event) {
@@ -180,16 +189,16 @@ public class MaisOpcoes extends TelaPrincipal {
 					      leitura += evt.getKeyChar();
 					      if(leitura.length()==2) {
 //					    	  lblCode.setText(leitura);
-					    	  if(leitura.equals("04")) {
+					    	  if(leitura.equals("CD")) {
 					    		  System.out.println("Cadastra");
 					    		  btnCadastrar.doClick();
-					    	  }else if(leitura.equals("05")) {
+					    	  }else if(leitura.equals("DP")) {
 					    		  System.out.println("Desativa");
 					    		  btnDesativar.doClick();
-					    	  }else if(leitura.equals("06")) {
+					    	  }else if(leitura.equals("CP")) {
 					    		  System.out.println("Cancela produto");
 					    		  btnCancelarPedido.doClick();
-					    	  }else if(leitura.equals("07")) {
+					    	  }else if(leitura.equals("AP")) {
 					    		  System.out.println("Altera preço");
 					    		  btnAlterarPreco.doClick();
 					    	  }

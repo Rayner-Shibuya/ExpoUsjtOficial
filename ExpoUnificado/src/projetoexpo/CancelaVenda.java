@@ -212,8 +212,8 @@ public class CancelaVenda extends JFrame {
 			      }
 			}
 		});
-		btnConfirma.setIcon(new ImageIcon(CancelaVenda.class.getResource("/ImageLib/sim.jpg")));
-		btnConfirma.setBounds(20, 198, 141, 54);
+		btnConfirma.setIcon(new ImageIcon(CancelaVenda.class.getResource("/ImageLib/SM.gif")));
+		btnConfirma.setBounds(20, 188, 125, 64);
 		contentPane.add(btnConfirma);
 		
 		JButton btnCancelar = new JButton("");
@@ -223,8 +223,8 @@ public class CancelaVenda extends JFrame {
 				dispose();
 			}
 		});
-		btnCancelar.setIcon(new ImageIcon(CancelaVenda.class.getResource("/ImageLib/nao.jpg")));
-		btnCancelar.setBounds(251, 198, 141, 54);
+		btnCancelar.setIcon(new ImageIcon(CancelaVenda.class.getResource("/ImageLib/NO.gif")));
+		btnCancelar.setBounds(251, 188, 125, 64);
 		contentPane.add(btnCancelar);
 		
 		listener = new AWTEventListener() {
@@ -234,12 +234,12 @@ public class CancelaVenda extends JFrame {
 			      if(evt.getID() == KeyEvent.KEY_PRESSED) {
 				      System.out.println("Tecla: "+evt.getKeyChar());
 				      leitura += evt.getKeyChar();
-				      if(leitura.length()==3) {
+				      if(leitura.length()==2) {
 //				    	  lblCode.setText(leitura);
-				    	  if(leitura.equals("sim")) {
+				    	  if(leitura.equals("SM")) {
 				    		  System.out.println("sim");
 				    		  btnConfirma.doClick();
-				    	  } else if(leitura.equals("nao")) {
+				    	  } else if(leitura.equals("NO")) {
 				    		  System.out.println("nao");
 				    		  btnCancelar.doClick();
 				    	  }

@@ -147,7 +147,7 @@ public class TelaPrincipal extends JFrame {
 		txtDescricao.setEditable(false);
 
 		txtTotal = new JTextField();
-		txtTotal.setBounds(195, 338, 138, 56);
+		txtTotal.setBounds(194, 334, 138, 56);
 		contentPane.add(txtTotal);
 		txtTotal.setColumns(10);
 		txtTotal.setEditable(false);
@@ -157,11 +157,11 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(lblDescricao);
 
 		lblCancelar = new JLabel("Cancelar venda");
-		lblCancelar.setBounds(245, 405, 116, 14);
+		lblCancelar.setBounds(245, 401, 116, 14);
 		contentPane.add(lblCancelar);
 
 		lblFinalizar = new JLabel("Finalizar Compra");
-		lblFinalizar.setBounds(39, 405, 122, 14);
+		lblFinalizar.setBounds(39, 401, 122, 14);
 		contentPane.add(lblFinalizar);
 
 		lblData = new JLabel(Util.getData());
@@ -169,15 +169,15 @@ public class TelaPrincipal extends JFrame {
 		contentPane.add(lblData);
 
 		lblMaisOpcoes = new JLabel("Mais Op\u00E7\u00F5es");
-		lblMaisOpcoes.setBounds(476, 405, 84, 14);
+		lblMaisOpcoes.setBounds(465, 401, 84, 14);
 		contentPane.add(lblMaisOpcoes);
 
 		JLabel lblTroco = new JLabel("Troco");
-		lblTroco.setBounds(507, 321, 46, 14);
+		lblTroco.setBounds(476, 309, 46, 14);
 		contentPane.add(lblTroco);
 
 		txtTroco = new JTextField();
-		txtTroco.setBounds(476, 348, 95, 37);
+		txtTroco.setBounds(476, 334, 95, 37);
 		contentPane.add(txtTroco);
 		txtTroco.setColumns(10);
 		txtTroco.setEditable(false);
@@ -188,7 +188,7 @@ public class TelaPrincipal extends JFrame {
 				txtTotal.getText();
 			}
 		});
-		txtValorRecebido.setBounds(343, 338, 122, 56);
+		txtValorRecebido.setBounds(344, 334, 122, 56);
 		contentPane.add(txtValorRecebido);
 		txtValorRecebido.setColumns(10);
 
@@ -246,8 +246,8 @@ public class TelaPrincipal extends JFrame {
 
 			}
 		});
-		btnFinalizar.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/Finalizar.gif")));
-		btnFinalizar.setBounds(39, 424, 116, 56);
+		btnFinalizar.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/FN.gif")));
+		btnFinalizar.setBounds(39, 418, 129, 62);
 		contentPane.add(btnFinalizar);
 
 		JButton btnCancelar = new JButton("");
@@ -263,8 +263,8 @@ public class TelaPrincipal extends JFrame {
 				}
 			}
 		});
-		btnCancelar.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/cancelar.gif")));
-		btnCancelar.setBounds(245, 424, 116, 56);
+		btnCancelar.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/CV.gif")));
+		btnCancelar.setBounds(245, 418, 129, 62);
 		contentPane.add(btnCancelar);
 
 		JButton btnMaisOpcoes = new JButton("");
@@ -283,8 +283,8 @@ public class TelaPrincipal extends JFrame {
 				txtCodigoDeBarra.setText("");
 			}
 		});
-		btnMaisOpcoes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/maisopcoes.gif")));
-		btnMaisOpcoes.setBounds(476, 424, 122, 56);
+		btnMaisOpcoes.setIcon(new ImageIcon(TelaPrincipal.class.getResource("/ImageLib/NO.gif")));
+		btnMaisOpcoes.setBounds(465, 418, 129, 62);
 		contentPane.add(btnMaisOpcoes);
 
 		scrollPane = new JScrollPane();
@@ -300,15 +300,15 @@ public class TelaPrincipal extends JFrame {
 		txtCodigoDeBarra.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 
-				if (txtCodigoDeBarra.getText().equalsIgnoreCase("01")) {
+				if (txtCodigoDeBarra.getText().equalsIgnoreCase("FN")) {
 					btnFinalizar.doClick();
 				}
 
-				else if (txtCodigoDeBarra.getText().equalsIgnoreCase("02")) {
+				else if (txtCodigoDeBarra.getText().equalsIgnoreCase("CV")) {
 					btnCancelar.doClick();
 				}
 
-				else if (txtCodigoDeBarra.getText().equalsIgnoreCase("03")) {
+				else if (txtCodigoDeBarra.getText().equalsIgnoreCase("MO")) {
 					btnMaisOpcoes.doClick();
 				}
 

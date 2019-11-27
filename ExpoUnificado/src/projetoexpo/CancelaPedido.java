@@ -55,7 +55,7 @@ public class CancelaPedido extends JFrame {
 		System.out.println(idPedido + " cancela");
 		setTitle("Cancela Pedido");
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 295, 300);
+		setBounds(100, 100, 295, 316);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
@@ -119,8 +119,8 @@ public class CancelaPedido extends JFrame {
 			      }
 			}
 		});
-		btnSim.setIcon(new ImageIcon(CancelaPedido.class.getResource("/ImageLib/sim.jpg")));
-		btnSim.setBounds(20, 86, 150, 45);
+		btnSim.setIcon(new ImageIcon(CancelaPedido.class.getResource("/ImageLib/SM.gif")));
+		btnSim.setBounds(20, 86, 125, 65);
 		contentPane.add(btnSim);
 		
 		JButton btnNao = new JButton("");
@@ -130,8 +130,8 @@ public class CancelaPedido extends JFrame {
 				dispose();
 			}
 		});
-		btnNao.setIcon(new ImageIcon(CancelaPedido.class.getResource("/ImageLib/nao.jpg")));
-		btnNao.setBounds(20, 187, 150, 45);
+		btnNao.setIcon(new ImageIcon(CancelaPedido.class.getResource("/ImageLib/NO.gif")));
+		btnNao.setBounds(20, 187, 125, 65);
 		contentPane.add(btnNao);
 		
 		JLabel lblSim = new JLabel("SIM");
@@ -149,12 +149,12 @@ public class CancelaPedido extends JFrame {
 			      if(evt.getID() == KeyEvent.KEY_PRESSED) {
 				      System.out.println("Tecla: "+evt.getKeyChar());
 				      leitura += evt.getKeyChar();
-				      if(leitura.length()==3) {
+				      if(leitura.length()==2) {
 //				    	  lblCode.setText(leitura);
-				    	  if(leitura.equals("sim")) {
+				    	  if(leitura.equals("SM")) {
 				    		  System.out.println("Sim");
 				    		  btnSim.doClick();
-				    	  }else if(leitura.equals("nao")) {
+				    	  }else if(leitura.equals("NO")) {
 				    		  System.out.println("nao");
 				    		  btnNao.doClick();
 				    	  }
