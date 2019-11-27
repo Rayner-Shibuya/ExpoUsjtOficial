@@ -184,6 +184,35 @@ public class Venda {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
+		
+	}
+	
+	public List<Mercadoria> getMercadoriasByPedido(Connection conn, int idPedido) {
+		String comando = "SELECT m.descricao,m.preco from mercadoria m, venda v where m.idMercadoria = v.mercadoria_idMercadoria and v.pedido_idpedido = ?";
+		Mercadoria m;
+		List<Mercadoria> lista = new ArrayList<>();
+		try (PreparedStatement pst = conn.prepareStatement(comando)){
+			
+			pst.setInt(1, idPedido);
+
+			try (ResultSet rs = pst.executeQuery();) {
+				while (rs.next()) {
+					m = new Mercadoria();
+					m.setDescricao(rs.getString(1));
+					m.setPreco(rs.getDouble(2));
+					lista.add(m);
+
+				}
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+		
 	}
 	
 	

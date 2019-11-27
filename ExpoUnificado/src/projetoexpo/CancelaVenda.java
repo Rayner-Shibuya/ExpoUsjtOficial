@@ -39,7 +39,7 @@ public class CancelaVenda extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					CancelaVenda frame = new CancelaVenda(0);
+					CancelaVenda frame = new CancelaVenda(0, new TelaPrincipal());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -63,7 +63,7 @@ public class CancelaVenda extends JFrame {
 	/**
 	 * Create the frame.
 	 */
-	public CancelaVenda(int idPed) {
+	public CancelaVenda(int idPed, TelaPrincipal telaPrincipal ) {
 		
 		this.idPedido = idPed;
 		
@@ -175,6 +175,10 @@ public class CancelaVenda extends JFrame {
 						pedido.atualizar(conn, idPed);
 						
 						conn.commit();
+						telaPrincipal.cancelaVenda();
+						telaPrincipal.repopulaTextAreaVenda(idPed);
+						
+						
 						
 						JOptionPane.showMessageDialog(null, "Produto removido do carrinho");
 					} else {
@@ -182,6 +186,7 @@ public class CancelaVenda extends JFrame {
 					}
 					
 					Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
+					
 					dispose();
 					
 				} catch (SQLException erro){

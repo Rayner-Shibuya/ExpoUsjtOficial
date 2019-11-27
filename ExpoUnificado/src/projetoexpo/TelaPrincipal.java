@@ -1,19 +1,10 @@
 package projetoexpo;
 
-import java.awt.AWTEvent;
-import java.awt.Component;
 import java.awt.EventQueue;
-import java.awt.Toolkit;
-import java.awt.Window;
-import java.awt.event.AWTEventListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.List;
 //import java.util.Timer;
 import java.util.TimerTask;
 
@@ -26,9 +17,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.SwingUtilities;
-import javax.swing.border.EmptyBorder;
 import javax.swing.Timer;
+import javax.swing.border.EmptyBorder;
 
 public class TelaPrincipal extends JFrame {
 
@@ -64,14 +54,17 @@ public class TelaPrincipal extends JFrame {
 	Double soma = 0.0;
 	private JScrollPane scrollPane;
 	private int idPedido;
+	static TelaPrincipal frame;
+	static MaisProdutos frame2;
+	Connection conn;
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					TelaPrincipal frame2 = new MaisProdutos();
+					frame2 = new MaisProdutos();
 					frame2.setVisible(true);
-					TelaPrincipal frame = new TelaPrincipal();
+					frame = new TelaPrincipal();
 					frame.setVisible(true);
 					frame.setTitle("ExpoUSJT");
 
@@ -88,7 +81,7 @@ public class TelaPrincipal extends JFrame {
 
 	public TelaPrincipal() {
 
-		Connection conn = Conexao.getConnection();
+		conn = Conexao.getConnection();
 
 		// Timer
 
@@ -163,8 +156,8 @@ public class TelaPrincipal extends JFrame {
 		lblDescricao.setBounds(193, 54, 138, 14);
 		contentPane.add(lblDescricao);
 
-		lblCancelar = new JLabel("Cancelar");
-		lblCancelar.setBounds(245, 405, 73, 14);
+		lblCancelar = new JLabel("Cancelar venda");
+		lblCancelar.setBounds(245, 405, 116, 14);
 		contentPane.add(lblCancelar);
 
 		lblFinalizar = new JLabel("Finalizar Compra");
@@ -263,7 +256,7 @@ public class TelaPrincipal extends JFrame {
 				if (pedido == null) {
 					JOptionPane.showMessageDialog(null, "Não há pedidos em aberto");
 				} else {
-					JFrame cancelar = new CancelaVenda(pedido.getId());
+					JFrame cancelar = new CancelaVenda(pedido.getId(), frame);
 					cancelar.setVisible(true);
 					txtCodigoDeBarra.setText("");
 					
@@ -285,7 +278,7 @@ public class TelaPrincipal extends JFrame {
 					idPedido = pedido.getId();
 				}
 				
-				JFrame opcoes = new MaisOpcoes(idPedido);
+				MaisOpcoes opcoes = new MaisOpcoes(idPedido, frame);
 				opcoes.setVisible(true);
 				txtCodigoDeBarra.setText("");
 			}
@@ -338,7 +331,7 @@ public class TelaPrincipal extends JFrame {
 								System.out.println(mercadoria.getId());
 								txtDescricao.setText(mercadoria.getDescricao());
 								txtValorUnitario.setText(mercadoria.getPreco() + "");
-								conteudo += mercadoria.getDescricao() + " - R$ " + mercadoria.getPreco() + "\n";
+								conteudo += geraLinhaVenda(mercadoria);
 								unidades++;
 								textArea.setText(conteudo);
 								total = soma += Double.parseDouble(txtValorUnitario.getText());
@@ -373,9 +366,10 @@ public class TelaPrincipal extends JFrame {
 							}
 						} else if (mercadoria.getId() == -1) {
 							String codigo = txtCodigoDeBarra.getText();
-							JFrame jj = new Cadastro(codigo, true);
+							JFrame jj = new Cadastro(codigo, true, frame);
 							jj.setVisible(true);
 							txtCodigoDeBarra.setText("");
+							
 						}
 
 					}
@@ -394,6 +388,10 @@ public class TelaPrincipal extends JFrame {
 	}
 
 	public void zeraPedido() {
+		cancelaVenda();
+		pedido = null;
+	}
+	public void cancelaVenda() {
 
 		txtCodigoDeBarra.requestFocus();
 		txtCodigoDeBarra.setText("");
@@ -408,6 +406,26 @@ public class TelaPrincipal extends JFrame {
 		textArea.setText("");
 		finalizado = !finalizado;
 		unidades = 0;
-		pedido = null;
 	}
+	
+	public void atualizarMaisProdutos() {
+		frame2.dispose();
+		frame2 = new MaisProdutos();
+		frame2.setVisible(true);
+		txtCodigoDeBarra.requestFocus();
+	}
+	
+	public String geraLinhaVenda(Mercadoria mercadoria) {
+		return mercadoria.getDescricao() + " - R$ " + mercadoria.getPreco() + "\n";
+	}
+	
+	public void repopulaTextAreaVenda(int idPedido) {
+		List<Mercadoria> lista = venda.getMercadoriasByPedido(conn, idPedido);
+		conteudo = "";
+		for(Mercadoria m: lista) {
+			conteudo += geraLinhaVenda(m);
+		}
+		textArea.setText(conteudo);
+	}
+	
 }

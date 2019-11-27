@@ -1,7 +1,7 @@
 package projetoexpo;
 import java.awt.EventQueue;
 import java.awt.Image;
-import java.util.ArrayList;
+import java.sql.Connection;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -35,7 +35,9 @@ public class MaisProdutos extends TelaPrincipal {
 	/**
 	 * Create the frame.
 	 */
-	public MaisProdutos() {
+public MaisProdutos() {
+		
+		Connection conn = Conexao.getConnection();
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(750, 30, 800, 800);
 		contentPane = new JPanel();
@@ -46,15 +48,20 @@ public class MaisProdutos extends TelaPrincipal {
     	Barcode b = new Barcode();
 
 
-		Mercadoria m = null;
-		List<Mercadoria> lista = new ArrayList();
-    	for(int x = 0;x<12;x++) {
-    		m = new Mercadoria();
-    		m.setCodigo("1234561234561");
-    		m.setDescricao("Produto Lindo "+(x+1));
-    		lista.add(m);
-    	}
-    	
+		Mercadoria m = new Mercadoria();
+		List<Mercadoria> lista = m.semCodigo(conn);
+		
+		int falta = 12 - lista.size();
+		
+		Mercadoria mm;
+		for(int i=0;i<falta;i++) {
+			mm = new Mercadoria();
+			mm.setCodigo(Util.getEan13Random());
+			System.out.println(mm.getCodigo());
+			mm.setDescricao("Vazio");
+			lista.add(mm);
+		}
+   	
     	
     	
 		JLabel codigoBarra = null;

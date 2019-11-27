@@ -113,7 +113,7 @@ public class Mercadoria {
 
 	public void inserir(Connection conn) {
 
-		String comando = "insert into mercadoria (codigo, descricao, unidade, preco, dataAtualizacao, ativo) values(?,?,?,?,?,?)";
+		String comando = "insert into mercadoria (codigo, descricao, unidade, preco, dataAtualizacao, ativo, codigoExiste) values(?,?,?,?,?,?,?)";
 		try (PreparedStatement ps = conn.prepareStatement(comando, Statement.RETURN_GENERATED_KEYS)) {
 
 			System.out.println(codigo);
@@ -123,6 +123,8 @@ public class Mercadoria {
 	         ps.setDouble(4, preco);
 	         ps.setDate(5, dataAtualizacao);
 	         ps.setBoolean(6, ativo);
+	         ps.setBoolean(7, codigoExiste);
+	         
 	         ps.execute();
 	         
 			

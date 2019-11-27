@@ -29,6 +29,7 @@ import javax.swing.Timer;
 import javax.swing.border.EmptyBorder;
 
 import com.toedter.calendar.JDateChooser;
+import javax.swing.JCheckBox;
 
 public class Cadastro extends JFrame {
 
@@ -44,6 +45,7 @@ public class Cadastro extends JFrame {
 	private Mercadoria mercadoria;
 	public boolean veioDoLeitor = false;
 	private static Timer timer;
+	MaisProdutos maisprodutos;
 
 	// Timer timer;
 
@@ -52,7 +54,7 @@ public class Cadastro extends JFrame {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					Cadastro frame = new Cadastro("", false);
+					Cadastro frame = new Cadastro("", false, new TelaPrincipal());
 					frame.setVisible(true);
 
 				} catch (Exception e) {
@@ -62,7 +64,7 @@ public class Cadastro extends JFrame {
 		});
 	}
 
-	public Cadastro(String codigo, boolean veioDoLeitor) {
+	public Cadastro(String codigo, boolean veioDoLeitor, TelaPrincipal telaPrincipal) {
 
 		Connection conn = Conexao.getConnection();
 		setTitle("Cadastro de Produtos");
@@ -176,6 +178,10 @@ public class Cadastro extends JFrame {
 		dateChooser.setEnabled(false);
 		;
 		contentPane.add(dateChooser);
+		
+		JCheckBox chckbxSemCod = new JCheckBox("Produto sem c\u00F3digo");
+		chckbxSemCod.setBounds(253, 92, 148, 23);
+		contentPane.add(chckbxSemCod);
 
 		JButton btnCadastrar = new JButton("Cadastrar");
 		btnCadastrar.addActionListener(new ActionListener() {
@@ -186,7 +192,8 @@ public class Cadastro extends JFrame {
 					conn.setAutoCommit(false);
 					mercadoria = new Mercadoria();
 					boolean resp = (comboBox.getSelectedItem().equals("Ativo")) ? true : false;
-
+					boolean selecionado = (chckbxSemCod.isSelected()) ? false : true;
+					
 					java.util.Date utilDate = dateChooser.getDate();
 					java.sql.Date sqlDate = new java.sql.Date(utilDate.getTime());
 
@@ -196,6 +203,7 @@ public class Cadastro extends JFrame {
 					mercadoria.setPreco(Double.parseDouble(txtValor.getText()));
 					mercadoria.setDataAtualizacao(sqlDate);
 					mercadoria.setAtivo(resp);
+					mercadoria.setCodigoExiste(selecionado);
 
 					mercadoria.carregar(conn);
 
@@ -223,10 +231,21 @@ public class Cadastro extends JFrame {
 
 							mercadoria.inserir(conn);
 							conn.commit();
-							JOptionPane.showMessageDialog(null, "Cadastro efetuado");
-							dispose();
+							
+							if (!selecionado) {
+								telaPrincipal.atualizarMaisProdutos();
+								JOptionPane.showMessageDialog(null, "Cadastro efetuado");
+								
+								dispose();
+							}
+							
+							
+							else {
+								dispose();
+							}
+							
 						}
-
+						
 					}
 
 				} catch (SQLException erro) {
@@ -254,6 +273,8 @@ public class Cadastro extends JFrame {
 		contentPane.add(btnCadastrar);
 
 		getRootPane().setDefaultButton(btnCadastrar);
+		
+		
 
 	}
 }

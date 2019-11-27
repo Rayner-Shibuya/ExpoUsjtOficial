@@ -36,7 +36,7 @@ public class MaisOpcoes extends TelaPrincipal {
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {
 				try {
-					MaisOpcoes frame = new MaisOpcoes(0);
+					MaisOpcoes frame = new MaisOpcoes(0, new TelaPrincipal());
 					frame.setVisible(true);
 				} catch (Exception e) {
 					e.printStackTrace();
@@ -49,7 +49,7 @@ public class MaisOpcoes extends TelaPrincipal {
 	 * Create the frame.
 	 */
 	
-	public MaisOpcoes(int idPedido) {
+	public MaisOpcoes(int idPedido, TelaPrincipal telaPrincipal) {
 		
 		this.IdPedido = idPedido;
 		
@@ -97,7 +97,7 @@ public class MaisOpcoes extends TelaPrincipal {
 		btnCadastrar.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				String codigo = "";
-				JFrame cadastro = new Cadastro(codigo,false);
+				JFrame cadastro = new Cadastro(codigo,false, telaPrincipal);
 				cadastro.setVisible(true);
 				Toolkit.getDefaultToolkit().removeAWTEventListener(listener);
 				dispose();
